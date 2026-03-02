@@ -1,0 +1,33 @@
+<div class="sort-dialog">
+
+    <!-- HEADER -->
+    <div class="header">
+      <button mat-button class="cancel" (click)="cancel()">Cancel</button>
+      <div class="title">Sort by</div>
+      <button mat-button class="save" (click)="save()">Save</button>
+    </div>
+  
+    <div class="content" [formGroup]="form">
+  
+      <mat-radio-group formControlName="sortBy" class="sort-list">
+  
+        <div *ngFor="let option of sortOptions" class="sort-row">
+          <mat-radio-button [value]="option.value">
+            <mat-icon class="icon">{{ option.icon }}</mat-icon>
+            {{ option.label }}
+          </mat-radio-button>
+        </div>
+  
+      </mat-radio-group>
+  
+      <!-- RESET BUTTON -->
+      <div class="reset-container">
+        <button mat-stroked-button color="warn" (click)="reset()">
+          <mat-icon>restart_alt</mat-icon>
+          Reset
+        </button>
+      </div>
+  
+    </div>
+  
+  </div>

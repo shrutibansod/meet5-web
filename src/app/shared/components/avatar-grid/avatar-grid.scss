@@ -1,0 +1,40 @@
+.grid {
+    --cols: 4;
+    --size: 72px;
+  
+    display: grid;
+    grid-template-columns: repeat(var(--cols), var(--size));
+    gap: 10px;
+  }
+  
+  .tile {
+    width: var(--size);
+    height: var(--size);
+    border-radius: 12px;
+    overflow: hidden;
+    background: #2a1f1b; // warm brown placeholder like screenshot
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(255,255,255,.06);
+  
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  
+    .initials {
+      font-weight: 800;
+      letter-spacing: .5px;
+      opacity: .9;
+    }
+  
+    &.empty {
+      background: #3a2721;
+    }
+  
+    .plus {
+      opacity: .55;
+    }
+  }

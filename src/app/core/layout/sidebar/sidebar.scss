@@ -1,0 +1,42 @@
+.shell {
+    height: 100vh;
+    background: #0b0b0b;
+  }
+  
+  .sidenav {
+    width: 280px;
+    background: #101010;
+    color: #f2f2f2;
+  }
+  
+  .sidenav-header {
+    padding: 16px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  
+    .appname {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: .5px;
+    }
+  
+    .subtitle {
+      font-size: 12px;
+      opacity: .7;
+      margin-top: 2px;
+    }
+  }
+  
+  .content {
+    background: #0b0b0b;
+  }
+  
+  .main {
+    padding: 20px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  
+  a.active {
+    background: rgba(255,255,255,.06);
+    border-radius: 10px;
+  }

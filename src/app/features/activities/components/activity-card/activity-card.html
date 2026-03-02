@@ -1,0 +1,38 @@
+<mat-card class="card">
+    <div class="top">
+      <div class="datetime">
+        <mat-icon>calendar_month</mat-icon>
+        <div class="dt-text">
+          <div class="date">{{ activity.start | date:'EEE, dd. MMMM yyyy' }}</div>
+          <div class="time">{{ activity.start | date:'HH:mm' }}</div>
+        </div>
+      </div>
+
+      <div class="meta">
+        <mat-chip-set>
+          <mat-chip *ngIf="activity.categoryTag">{{ activity.categoryTag }}</mat-chip>
+          <mat-chip *ngIf="activity.priceTag">{{ activity.priceTag }}</mat-chip>
+          <mat-chip class="count">{{ joinedText }}</mat-chip>
+        </mat-chip-set>
+      </div>
+    </div>
+
+    <!-- The mobile-like grid of joined users + empty slots with plus -->
+    <div class="grid-wrap">
+      <app-avatar-grid
+        [users]="activity.joined"
+        [capacity]="activity.capacity"
+        [cols]="4"
+        [tileSize]="72"
+      />
+    </div>
+
+    <div class="bottom">
+      <div class="title">{{ activity.title }}</div>
+
+      <div class="location">
+        <mat-icon>location_on</mat-icon>
+        <span>{{ activity.locationName }}<ng-container *ngIf="activity.locationCity">, {{ activity.locationCity }}</ng-container></span>
+      </div>
+    </div>
+  </mat-card>

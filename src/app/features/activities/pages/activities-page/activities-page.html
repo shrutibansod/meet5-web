@@ -1,0 +1,55 @@
+<div class="header-row">
+
+    <!-- Left: Title -->
+    <div class="header-info">
+      <div class="title">Activities</div>
+      <div class="sub">Dummy Data</div>
+    </div>
+  
+    <!-- Middle: Search -->
+    <div class="header-search">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search activities</mat-label>
+        <mat-icon matPrefix>search</mat-icon>
+        <input
+          matInput
+          formControlName="query"
+          placeholder="e.g. brunch, Café Nord, Breiter Weg, Monday…"
+        />
+      </mat-form-field>
+    </div>
+  
+    <!-- Right: Actions -->
+    <div class="header-actions">
+         <!-- SORT BUTTON -->
+  <button mat-stroked-button type="button" (click)="openSort()">
+    <mat-icon>sort</mat-icon>
+  </button>
+
+  <!-- FILTER BUTTON -->
+  <button mat-stroked-button type="button" (click)="openFilters()">
+    <mat-icon>tune</mat-icon>
+  </button>
+  
+  
+      <button mat-flat-button color="accent">
+        <mat-icon>add</mat-icon>
+        Create
+      </button>
+    </div>
+  
+  </div>
+  
+ 
+  <!-- RESULTS -->
+  <div class="page-grid">
+    <ng-container *ngIf="activities$ | async as activities">
+      <app-activity-card
+        *ngFor="let a of activities; trackBy: trackById"
+        [activity]="a"
+      />
+      <div class="empty" *ngIf="activities.length === 0">
+        No activities match your search.
+      </div>
+    </ng-container>
+  </div>

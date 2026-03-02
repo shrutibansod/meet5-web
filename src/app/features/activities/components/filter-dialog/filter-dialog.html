@@ -1,0 +1,154 @@
+<div class="dialog">
+
+    <!-- HEADER -->
+    <!-- <div class="header">
+      <button mat-button class="cancel" (click)="cancel()">Cancel</button>
+      <div class="title">Filter</div>
+      <button mat-button class="apply" (click)="apply()">Apply</button>
+    </div> -->
+    <h1 mat-dialog-title class="header">
+        <div class="title">Filter</div>
+        
+    </h1>
+
+    <mat-dialog-content [formGroup]="form">
+    <!-- <div class="content" [formGroup]="form"> -->
+  
+      <!-- CATEGORIES -->
+      <div class="section">
+        <div class="section-title">CATEGORIES</div>
+  
+        <div class="card list-card">
+          <div class="category-row"
+               *ngFor="let c of categories"
+               (click)="toggleCategory(c.id)"
+               [class.selected]="isSelected(c.id)">
+            <div class="left">
+              <mat-icon class="cat-icon">{{ c.icon }}</mat-icon>
+            </div>
+  
+            <div class="mid">
+              <div class="cat-title">{{ c.title }}</div>
+              <div class="cat-sub">{{ c.subtitle }}</div>
+            </div>
+  
+            <div class="right">
+              <!-- <mat-icon class="crown" *ngIf="c.premium">emoji_events</mat-icon> -->
+              <mat-icon class="material-icons" *ngIf="c.premium">diamond</mat-icon>
+              <mat-checkbox
+                (click)="$event.stopPropagation()"
+                [checked]="isSelected(c.id)"
+                (change)="toggleCategory(c.id)">
+              </mat-checkbox>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- AGE -->
+      <div class="section">
+        <div class="section-title">AGE</div>
+  
+        <div class="card age-card">
+          <div class="age-values">
+            <div class="age">{{ form.value.ageMin }}</div>
+            <div class="age">{{ form.value.ageMax }}</div>
+          </div>
+  
+          <!-- Range slider (two thumbs) -->
+          <mat-slider class="range" min="18" max="80" step="1" discrete>
+            <input matSliderStartThumb formControlName="ageMin" />
+            <input matSliderEndThumb formControlName="ageMax" />
+          </mat-slider>
+  
+          <div class="help">
+            Find activities with members close to your age. Move the right and left points to set the min and max age.
+            This search would only apply to the Activity tab.
+          </div>
+        </div>
+      </div>
+  
+      <!-- TYPE OF ACTIVITIES -->
+      <div class="section">
+        <div class="section-title">TYPE OF ACTIVITIES</div>
+  
+        <div class="card">
+          <mat-radio-group formControlName="type" class="radio">
+            <mat-radio-button value="all">All</mat-radio-button>
+            <mat-radio-button value="womenOnly">For women only</mat-radio-button>
+            <mat-radio-button value="weeklyMonthly">Weekly and monthly activities</mat-radio-button>
+          </mat-radio-group>
+  
+          <div class="help">
+            Choose to display all activities, only activities for your gender, or Meet5 weeklies/monthlies.
+          </div>
+        </div>
+      </div>
+  
+      <!-- TOGGLES -->
+      <div class="section">
+        <div class="card toggles">
+          <div class="toggle-row">
+            <div class="toggle-left">
+              <mat-icon>visibility_off</mat-icon>
+              <div class="toggle-text">Hide full activities</div>
+            </div>
+            <mat-slide-toggle formControlName="hideFull"></mat-slide-toggle>
+          </div>
+  
+          <div class="toggle-row">
+            <div class="toggle-left">
+              <mat-icon>visibility_off</mat-icon>
+              <div class="toggle-text">Hide XXL activities</div>
+            </div>
+            <mat-slide-toggle formControlName="hideXXL"></mat-slide-toggle>
+          </div>
+  
+          <div class="toggle-row">
+            <div class="toggle-left">
+              <mat-icon>visibility_off</mat-icon>
+              <div class="toggle-text">Hide global activities</div>
+            </div>
+            <mat-slide-toggle formControlName="hideGlobal"></mat-slide-toggle>
+          </div>
+        </div>
+      </div>
+  
+      <!-- DATE RANGE -->
+      <div class="section">
+        <div class="card toggle-single">
+          <div class="toggle-row">
+            <div class="toggle-left">
+              <mat-icon>date_range</mat-icon>
+              <div class="toggle-text">Date range</div>
+            </div>
+            <mat-slide-toggle formControlName="dateRangeEnabled"></mat-slide-toggle>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Languages section placeholder like screenshot -->
+      <!-- Language Selection -->
+  <div class="filter-section">
+    <h3 class="section-title">Language</h3>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Select language</mat-label>
+
+      <mat-select formControlName="language">
+        <mat-option value="">All languages</mat-option>
+
+        <mat-option *ngFor="let lang of languages" [value]="lang">
+          {{ lang }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  
+    <!-- </div> -->
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button (click)="cancel()">Cancel</button>
+    <button mat-button (click)="apply()">Apply</button>
+  </mat-dialog-actions>
+  </div>
