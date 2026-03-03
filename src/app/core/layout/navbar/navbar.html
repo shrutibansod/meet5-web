@@ -1,20 +1,24 @@
 <mat-toolbar class="bar" color="primary">
-    <button mat-icon-button (click)="menuClick.emit()">
-      <mat-icon>menu</mat-icon>
-    </button>
+  <button mat-icon-button (click)="menuClick.emit()">
+    <mat-icon>menu</mat-icon>
+  </button>
 
-    <!-- Location -->
-  <div class="location" (click)="locationClick.emit()">
-    <mat-icon class="loc-icon">place</mat-icon>
-    <span class="city">{{ city }}</span>
-    <mat-icon class="arrow">expand_more</mat-icon>
-  </div>
-
-
-    <span class="spacer"></span>
+  <!-- Location -->
+<div class="location" (click)="locationClick.emit()">
+  <mat-icon class="loc-icon">place</mat-icon>
+  <span class="city">{{ city }}</span>
+  <mat-icon class="arrow">expand_more</mat-icon>
+</div>
 
 
-    <button mat-icon-button aria-label="Notifications" [matBadge]="notifications" matBadgeColor="warn">
-      <mat-icon>notifications</mat-icon>
-    </button>
-  </mat-toolbar>
+  <span class="spacer"></span>
+
+
+  <button mat-icon-button aria-label="Notifications" [matBadge]="notifications" matBadgeColor="warn">
+    <mat-icon>notifications</mat-icon>
+  </button>
+  <!-- Logout -->
+  <button mat-icon-button>
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>
