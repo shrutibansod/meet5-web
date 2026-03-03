@@ -1,1 +1,34 @@
-<p>sidebar works!</p>
+<mat-sidenav-container class="shell">
+    <mat-sidenav
+      #drawer
+      class="sidenav"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) ? false : true"
+    >
+      <div class="sidenav-header">
+        <div class="appname">meet5</div>
+        <div class="subtitle">Web (dummy)</div>
+      </div>
+
+      <mat-nav-list>
+        <a
+          mat-list-item
+          *ngFor="let item of nav"
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          (click)="closeIfHandset()"
+        >
+          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+          <span matListItemTitle>{{ item.label }}</span>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="content">
+      <app-navbar (menuClick)="drawer.toggle()" />
+
+      <main class="main">
+        <router-outlet />
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
