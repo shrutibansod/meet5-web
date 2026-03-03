@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable, startWith } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivityCard } from '../../components/activity-card/activity-card';
@@ -9,8 +9,6 @@ import { ActivitiesService, Activity } from '../../../../core/services/activitie
 import { MatDialog } from '@angular/material/dialog';
 import { ActivityFilters, CategoryFilter } from '../../models/activity-filter.model';
 import { FilterDialog, FilterDialogData } from '../../components/filter-dialog/filter-dialog';
-// import { FilterDialogComponent, FilterDialogData } from '../components/filter-dialog/filter-dialog.component';
-// import { ActivityFilters, CategoryFilter } from '../models/activity-filters.model';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -32,31 +30,6 @@ type AreaOption = {
     MatSelectModule, MatSliderModule
   ],
   templateUrl: './activities-page.html',
-  // template: `
-  //   <div class="header">
-  //     <div>
-  //       <div class="h1">Activities</div>
-  //       <div class="sub">Dummy data • Desktop/iPad optimized</div>
-  //     </div>
-
-  //     <div class="actions">
-  //       <button mat-stroked-button  type="button" (click)="openFilters()">
-  //         <mat-icon>tune</mat-icon>
-  //         Filter
-  //       </button>
-  //       <button mat-flat-button color="accent">
-  //         <mat-icon>add</mat-icon>
-  //         Create
-  //       </button>
-  //     </div>
-  //   </div>
-
-  //   <div class="page-grid">
-  //     <ng-container *ngIf="activities$ | async as activities">
-  //       <app-activity-card *ngFor="let a of activities; trackBy: trackById" [activity]="a" />
-  //     </ng-container>
-  //   </div>
-  // `,
   styleUrls: ['./activities-page.scss']
 })
 
@@ -64,22 +37,50 @@ type AreaOption = {
 
 
 export class ActivitiesPage {
-  form = new FormGroup({
-    query: new FormControl<string>(''),
-    areaId: new FormControl<string>('md'),
-    radiusKm: new FormControl<number>(10),
-  });
-// Dummy “chosen location” options (city centers)
-areas: AreaOption[] = [
-  { id: 'md', label: 'Magdeburg',  },
-  { id: 'wob', label: 'Wolfsburg',},
-];
-  activities$!: Observable<Activity[]>;
+  private searchSubject = new BehaviorSubject<string>('');
+  search$ = this.searchSubject.asObservable();
 
-  constructor(private activitiesService: ActivitiesService) {
-    this.activities$ = this.activitiesService.getActivities();
+  // form = new FormGroup({
+  //   query: new FormControl<string>('')
+  // });
   
+  activities$!: Observable<Activity[]>;
+  filteredActivities$!: Observable<Activity[]>;
+  
+  constructor(private activitiesService: ActivitiesService) {
+
+    this.activities$ = this.activitiesService.getActivities();
+
+    this.filteredActivities$ = combineLatest([
+      this.activities$,
+      this.search$
+    ]).pipe(
+      map(([activities, search]) => {
+        if (!search) return activities;
+
+        const lowerSearch = search.toLowerCase().trim();
+
+        return activities.filter(activity => {
+          const weekday = new Date(activity.start)
+            .toLocaleDateString('en-US', { weekday: 'long' })
+            .toLowerCase();
+
+          return (
+            activity.title.toLowerCase().includes(lowerSearch) ||
+            activity.locationName.toLowerCase().includes(lowerSearch) ||
+            activity.locationCity.toLowerCase().includes(lowerSearch) ||
+            weekday.includes(lowerSearch)
+          );
+        });
+      })
+    );
   }
+
+  onSearch(value: string) {
+    this.searchSubject.next(value);
+  }
+
+  
 
   private dialog = inject(MatDialog);
 
@@ -141,9 +142,25 @@ openSort() {
     }
   });
 }
+ 
+// get filteredActivities() {
+//   const search = this.query.value?.toLowerCase().trim();
+//   if (!search) return this.activities;
+
+//   return this.activities.filter(activity => {
+//     const weekday = activity.date.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase();
+
+//     return (
+//       activity.title.toLowerCase().includes(search) ||
+//       activity.place.toLowerCase().includes(search) ||
+//       activity.address.toLowerCase().includes(search) ||
+//       weekday.includes(search)
+//     );
+//   });
+// }
 
 clearSearch() {
-  this.form.patchValue({ query: '' });
+  this.searchSubject.next('');
 }
 
   trackById(_: number, item: Activity) {

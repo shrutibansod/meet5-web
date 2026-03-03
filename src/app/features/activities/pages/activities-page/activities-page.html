@@ -13,8 +13,8 @@
         <mat-icon matPrefix>search</mat-icon>
         <input
           matInput
-          formControlName="query"
           placeholder="e.g. brunch, Café Nord, Breiter Weg, Monday…"
+          (input)="onSearch($event.target.value)"
         />
       </mat-form-field>
     </div>
@@ -43,13 +43,21 @@
  
   <!-- RESULTS -->
   <div class="page-grid">
-    <ng-container *ngIf="activities$ | async as activities">
-      <app-activity-card
-        *ngFor="let a of activities; trackBy: trackById"
-        [activity]="a"
-      />
-      <div class="empty" *ngIf="activities.length === 0">
-        No activities match your search.
-      </div>
-    </ng-container>
+
+    @if (filteredActivities$ | async; as activities) {
+  
+      @for (activity of activities; track activity.id) {
+        <app-activity-card
+          [activity]="activity">
+        </app-activity-card>
+      }
+  
+      @if (activities.length === 0) {
+        <div class="empty">
+          No activities match your search.
+        </div>
+      }
+  
+    }
+  
   </div>

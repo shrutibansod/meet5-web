@@ -12,7 +12,7 @@ export type Activity = {
   title: string;
   start: string; // ISO string for simplicity
   locationName: string;
-  locationCity?: string;
+  locationCity: string;
   joined: JoinedUser[];
   capacity: number;
   priceTag?: string;        // e.g. "Free" / "€€"
@@ -66,6 +66,23 @@ export class ActivitiesService {
         capacity: 8,
         categoryTag: 'Games',
         priceTag: '€',
+      },
+      {
+        id: 'a4',
+        title: 'Study',
+        start: '2026-03-04T10:30:00',
+        locationName: 'Universität',
+        locationCity: 'Magdeburg',
+        joined: [
+          { id: 'u4', name: 'Chris Weber' },
+          { id: 'u5', name: 'Sophie Klein' },
+          { id: 'u6', name: 'Tim Berger' },
+          { id: 'u7', name: 'Mia Wagner' },
+          { id: 'u8', name: 'Jonas Koch' },
+        ],
+        capacity: 12,
+        categoryTag: 'Outdoor',
+        priceTag: 'Free',
       },
     ];
 
